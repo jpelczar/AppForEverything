@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import io.jpelczar.appforeverything.core.event.RxBus
+import javax.inject.Singleton
 
 @Module
 class ApplicationModule(private val application: Application) {
@@ -15,7 +17,14 @@ class ApplicationModule(private val application: Application) {
 
     @Provides
     @ApplicationContext
-    internal fun proviceContext(): Context {
+    internal fun provideContext(): Context {
         return application
     }
+
+    @Provides
+    @Singleton
+    internal fun provideRxBus(): RxBus {
+        return RxBus()
+    }
+
 }

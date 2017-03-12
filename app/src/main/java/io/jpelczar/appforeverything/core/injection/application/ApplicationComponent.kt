@@ -3,6 +3,7 @@ package io.jpelczar.appforeverything.core.injection.application
 import android.app.Application
 import android.content.Context
 import dagger.Component
+import io.jpelczar.appforeverything.core.event.RxBus
 import javax.inject.Singleton
 
 
@@ -14,5 +15,7 @@ interface ApplicationComponent {
     fun context(): Context
 
     fun application(): Application
+
+    fun rxBus(): RxBus
 
 }
