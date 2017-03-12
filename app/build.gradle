@@ -43,9 +43,7 @@ dependencies {
     def JUNIT_VERSION = "4.12"
 
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-
-    annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
+    kapt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
 
     provided "javax.annotation:jsr250-api:$JSR250_VERSION"
 
