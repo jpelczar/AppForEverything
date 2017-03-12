@@ -1,4 +1,4 @@
 package io.jpelczar.appforeverything.core.event
 
 
-interface Event
+open class Event(var type: String)
