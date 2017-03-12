@@ -3,6 +3,7 @@ package io.jpelczar.appforeverything.core
 import android.app.Application
 import android.content.Context
 import com.squareup.leakcanary.LeakCanary
+import io.jpelczar.appforeverything.commons.SharedPreferencesUtil
 import io.jpelczar.appforeverything.core.injection.application.ApplicationComponent
 import io.jpelczar.appforeverything.core.injection.application.ApplicationModule
 import io.jpelczar.appforeverything.core.injection.application.DaggerApplicationComponent
@@ -29,5 +30,6 @@ class App : Application() {
         LeakCanary.install(this)
 
         applicationComponent = DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this)).build()
+        SharedPreferencesUtil.context = this
     }
 }
