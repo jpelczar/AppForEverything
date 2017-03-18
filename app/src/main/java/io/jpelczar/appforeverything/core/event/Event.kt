@@ -1,4 +1,16 @@
 package io.jpelczar.appforeverything.core.event
 
 
-open class Event(var type: String)
+open class Event {
+
+    lateinit var type: String
+    lateinit var data: EventData
+
+    constructor()
+
+    constructor(type: String, data: EventData) {
+        this.type = type
+        this.data = data
+    }
+
+}
