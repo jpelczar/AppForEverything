@@ -1,19 +1,27 @@
 package io.jpelczar.appforeverything.module.auth
 
 import android.content.Context
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import io.jpelczar.appforeverything.data.Account
 
 class FirebaseAuth(context: Context) : Authentication(context) {
 
-    override fun sigIn(account: Account, password: String) {
+    override fun signUp(account: Account, callback: Callback) {
+        signUp(account, EmailAuthProvider.getCredential(account.mail, account.password), callback)
     }
 
-    override fun sigUp(account: Account, password: String, callback: Callback) {
-        firebaseAuth.createUserWithEmailAndPassword(account.mail, password)
-                .addOnSuccessListener { result -> callback.onResult(SIGN_UP_SUCCESS, result.user.email) }
-                .addOnFailureListener { e -> callback.onResult(SIGN_UP_FAIL, e.message) }
+    override fun signIn(account: Account, callback: Callback) {
+        signIn(account, EmailAuthProvider.getCredential(account.mail, account.password), callback)
     }
 
-    override fun signOut(account: Account) {
+    override fun createAccount(account: Account, firebaseAuth: FirebaseAuth, callback: Callback) {
+        firebaseAuth.createUserWithEmailAndPassword(account.mail, account.password)
+                .addOnSuccessListener { task ->
+                    callback.onResult(SIGN_UP_SUCCESS, "Create account success " + task.user.displayName)
+                }
+                .addOnFailureListener { task ->
+                    callback.onResult(SIGN_UP_FAIL, "Can't create account " + task.message)
+                }
     }
 }

@@ -15,6 +15,14 @@ class Account : BaseStoredData {
         this.type = type
     }
 
+    constructor(name: String, mail: String, password: String, type: String) : super() {
+        this.name = name
+        this.mail = mail
+        this.type = type
+        this.password = password
+    }
+
+
     @DatabaseField
     lateinit var name: String
 
@@ -24,6 +32,8 @@ class Account : BaseStoredData {
     @DatabaseField
     @Type
     lateinit var type: String
+
+    lateinit var password: String
 
     companion object {
         const val FACEBOOK = "FACEBOOK"

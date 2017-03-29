@@ -28,7 +28,7 @@ kapt {
 }
 
 dependencies {
-    def SUPPORT_VERSION = "25.3.0"
+    def SUPPORT_VERSION = "25.3.1"
     def FIREBASE_VERSION = "10.0.1"
     def DAGGER_VERSION = "2.9"
     def JSR250_VERSION = "1.0"
@@ -69,6 +69,7 @@ dependencies {
     })
 
     testCompile "junit:junit:$JUNIT_VERSION"
+    compile 'com.android.support:support-v4:25.3.0'
 }
 repositories {
     mavenCentral()
