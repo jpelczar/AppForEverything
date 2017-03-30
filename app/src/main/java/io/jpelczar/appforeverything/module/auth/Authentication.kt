@@ -18,7 +18,7 @@ abstract class Authentication(val context: Context) {
 
     abstract fun createAccount(account: Account, firebaseAuth: FirebaseAuth, callback: Callback)
 
-    fun signOut(callback: Callback) {
+    open fun signOut(callback: Callback) {
         registerAuthListener(callback)
         firebaseAuth.signOut()
         unregisterAuthListener()
@@ -71,6 +71,7 @@ abstract class Authentication(val context: Context) {
         const val SIGN_OUT_FAIL = 3L
         const val SIGN_UP_SUCCESS = 4L
         const val SIGN_UP_FAIL = 5L
+        const val FAIL = 6L
 
         fun translateAuthState(value: Long): String {
             return when (value) {
@@ -80,12 +81,13 @@ abstract class Authentication(val context: Context) {
                 SIGN_OUT_FAIL -> "Sign out fail"
                 SIGN_UP_SUCCESS -> "Sign up success"
                 SIGN_UP_FAIL -> "Sign up fail"
+                FAIL -> "Something went wrong"
                 else -> "Not auth state"
             }
         }
     }
 
     @Retention(AnnotationRetention.SOURCE)
-    @IntDef(SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_OUT_FAIL, SIGN_OUT_SUCCESS, SIGN_UP_FAIL, SIGN_UP_SUCCESS)
+    @IntDef(SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_OUT_FAIL, SIGN_OUT_SUCCESS, SIGN_UP_FAIL, SIGN_UP_SUCCESS, FAIL)
     annotation class State
 }

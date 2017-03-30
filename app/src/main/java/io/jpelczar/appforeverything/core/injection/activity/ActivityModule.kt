@@ -1,16 +1,16 @@
 package io.jpelczar.appforeverything.core.injection.activity
 
-import android.app.Activity
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 
 
 @Module
-class ActivityModule(private val activity: Activity) {
+class ActivityModule(private val activity: AppCompatActivity) {
 
     @Provides
-    internal fun provideActivity(): Activity {
+    internal fun provideActivity(): AppCompatActivity {
         return activity
     }
 
