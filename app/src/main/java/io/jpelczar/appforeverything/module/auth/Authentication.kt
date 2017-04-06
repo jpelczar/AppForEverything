@@ -1,22 +1,23 @@
 package io.jpelczar.appforeverything.module.auth
 
 import android.content.Context
+import android.content.Intent
 import android.support.annotation.IntDef
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import io.jpelczar.appforeverything.data.Account
 
 
-abstract class Authentication(val context: Context) {
+abstract class Authentication(val context: Context, val account: Account) {
 
     protected var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var firebaseAuthListener: FirebaseAuth.AuthStateListener
 
-    abstract fun signIn(account: Account, callback: Callback)
+    abstract fun signIn(callback: Callback)
 
-    abstract fun signUp(account: Account, callback: Callback)
+    open fun signUp(callback: Callback) {}
 
-    abstract fun createAccount(account: Account, firebaseAuth: FirebaseAuth, callback: Callback)
+    open fun createAccount(firebaseAuth: FirebaseAuth, callback: Callback) {}
 
     open fun signOut(callback: Callback) {
         registerAuthListener(callback)
@@ -24,16 +25,18 @@ abstract class Authentication(val context: Context) {
         unregisterAuthListener()
     }
 
-    protected fun signIn(account: Account, credential: AuthCredential, callback: Callback) {
+    open fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {}
+
+    protected fun signIn(credential: AuthCredential, callback: Callback) {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful)
-                callback.onResult(SIGN_IN_SUCCESS, task.result.user.email)
+                callback.onResult(SIGN_IN_SUCCESS, task.result.user.uid)
             else
                 callback.onResult(SIGN_IN_FAIL, task.exception?.message)
         }
     }
 
-    protected fun signUp(account: Account, credential: AuthCredential, callback: Callback) {
+    protected fun signUp(credential: AuthCredential, callback: Callback) {
         if (firebaseAuth.currentUser != null)
             firebaseAuth.currentUser?.linkWithCredential(credential)?.addOnCompleteListener { task ->
                 if (task.isSuccessful)
@@ -42,7 +45,7 @@ abstract class Authentication(val context: Context) {
                     callback.onResult(SIGN_UP_FAIL, credential.provider + " " + task.exception)
             }
         else
-            createAccount(account, firebaseAuth, callback)
+            createAccount(firebaseAuth, callback)
     }
 
     private fun registerAuthListener(callback: Callback) {

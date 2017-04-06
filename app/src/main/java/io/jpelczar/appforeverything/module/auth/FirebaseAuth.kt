@@ -5,17 +5,17 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import io.jpelczar.appforeverything.data.Account
 
-class FirebaseAuth(context: Context) : Authentication(context) {
+class FirebaseAuth(context: Context, account: Account) : Authentication(context, account) {
 
-    override fun signUp(account: Account, callback: Callback) {
-        signUp(account, EmailAuthProvider.getCredential(account.mail, account.password), callback)
+    override fun signUp(callback: Callback) {
+        signUp(EmailAuthProvider.getCredential(account.mail, account.password), callback)
     }
 
-    override fun signIn(account: Account, callback: Callback) {
-        signIn(account, EmailAuthProvider.getCredential(account.mail, account.password), callback)
+    override fun signIn(callback: Callback) {
+        signIn(EmailAuthProvider.getCredential(account.mail, account.password), callback)
     }
 
-    override fun createAccount(account: Account, firebaseAuth: FirebaseAuth, callback: Callback) {
+    override fun createAccount(firebaseAuth: FirebaseAuth, callback: Callback) {
         firebaseAuth.createUserWithEmailAndPassword(account.mail, account.password)
                 .addOnSuccessListener { task ->
                     callback.onResult(SIGN_UP_SUCCESS, "Create account success " + task.user.displayName)

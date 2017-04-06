@@ -1,58 +1,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="io.jpelczar.appforeverything.signin.SignInFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="io.jpelczar.appforeverything.signin.SignInFragment">
 
     <EditText
         android:id="@+id/mail_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/mail"
-        android:inputType="textEmailAddress"/>
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/signUp"/>
+        android:text="@string/signUp" />
 
     <Button
         android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/signIn"/>
+        android:text="@string/signIn" />
 
+    <!--FIXME when firebase get right user merging for google, fb, etc. -->
     <Button
         android:id="@+id/sign_in_facebook_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/signInFacebook"/>
+        android:text="@string/signInFacebook"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/sign_in_google_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/signInGoogle"/>
+        android:text="@string/signInGoogle" />
 
     <Button
         android:id="@+id/sign_out_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/signOut"/>
+        android:text="@string/signOut" />
 
     <TextView
         android:id="@+id/auth_result_text_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
 </LinearLayout>

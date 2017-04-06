@@ -16,6 +16,7 @@ import io.jpelczar.appforeverything.commons.L
 import io.jpelczar.appforeverything.core.BaseFragment
 import io.jpelczar.appforeverything.data.Account
 import io.jpelczar.appforeverything.module.auth.Authentication
+import io.jpelczar.appforeverything.module.auth.FacebookAuth
 import io.jpelczar.appforeverything.module.auth.FirebaseAuth
 import io.jpelczar.appforeverything.module.auth.GoogleAuth
 import java.util.*
@@ -52,7 +53,6 @@ class SignInFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        authentication = GoogleAuth(activity)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -67,16 +67,14 @@ class SignInFragment : BaseFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (authentication is GoogleAuth) {
-            (authentication as GoogleAuth).handleResult(requestCode, resultCode, data)
-        }
+        authentication?.handleResult(requestCode, resultCode, data)
     }
 
     fun setUpListeners() {
         signUpButton.setOnClickListener {
-            authentication = FirebaseAuth(activity.applicationContext)
-            authentication?.signUp(Account(UUID.randomUUID().toString(), mailEditText.text.toString(),
-                    passworkdEditText.text.toString(), Account.MAIL), object : Authentication.Callback {
+            authentication = FirebaseAuth(activity.applicationContext, Account(UUID.randomUUID().toString(),
+                    mailEditText.text.toString(), passworkdEditText.text.toString(), Account.MAIL))
+            authentication?.signUp(object : Authentication.Callback {
                 override fun onResult(state: Long, message: String?) {
                     val displayText = "${Authentication.translateAuthState(state)} - $message"
                     authOutTextView.text = displayText
@@ -86,9 +84,9 @@ class SignInFragment : BaseFragment() {
         }
 
         signInButton.setOnClickListener {
-            authentication = FirebaseAuth(activity.applicationContext)
-            authentication?.signIn(Account("", mailEditText.text.toString(),
-                    passworkdEditText.text.toString(), Account.MAIL), object : Authentication.Callback {
+            authentication = FirebaseAuth(activity.applicationContext, Account("", mailEditText.text.toString(),
+                    passworkdEditText.text.toString(), Account.MAIL))
+            authentication?.signIn(object : Authentication.Callback {
                 override fun onResult(state: Long, message: String?) {
                     val displayText = "${Authentication.translateAuthState(state)} - $message"
                     authOutTextView.text = displayText
@@ -97,11 +95,24 @@ class SignInFragment : BaseFragment() {
             })
         }
 
-        signInFacebook.setOnClickListener { }
+        signInFacebook.setOnClickListener {
+            authentication = FacebookAuth(activity, Account("", mailEditText.text.toString(),
+                    passworkdEditText.text.toString(), Account.FACEBOOK))
+            L.d("FB start")
+            authentication?.signIn(object : Authentication.Callback {
+                override fun onResult(state: Long, message: String?) {
+                    val displayText = "${Authentication.translateAuthState(state)} - $message"
+                    authOutTextView.text = displayText
+                    L.d(displayText)
+                }
+            })
+        }
 
         signInGoogle.setOnClickListener {
-            authentication?.signIn(Account("", mailEditText.text.toString(),
-                    passworkdEditText.text.toString(), Account.GOOGLE), object : Authentication.Callback {
+            authentication = GoogleAuth(activity, Account("", mailEditText.text.toString(),
+                    passworkdEditText.text.toString(), Account.GOOGLE))
+
+            authentication?.signIn(object : Authentication.Callback {
                 override fun onResult(state: Long, message: String?) {
                     val displayText = "${Authentication.translateAuthState(state)} - $message"
                     authOutTextView.text = displayText

@@ -9,6 +9,10 @@ class Account : BaseStoredData {
 
     constructor()
 
+    constructor(type: String) : super() {
+        this.type = type
+    }
+
     constructor(name: String, mail: String, type: String) : super() {
         this.name = name
         this.mail = mail

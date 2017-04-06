@@ -23,6 +23,10 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 kapt {
     generateStubs = true
 }
@@ -37,6 +41,7 @@ dependencies {
     def RX_VERSION = "2.0.1"
     def ORMLITE_VERSION = "4.45"
     def RETROFIT_VERSION = "2.2.0"
+    def FACEBOOK_VERSION = "4.20.0"
     def LEAK_CANARY_VERSION = "1.5"
 
     def ESPRESSO_VERSION = "2.2.2"
@@ -61,6 +66,7 @@ dependencies {
     compile "com.j256.ormlite:ormlite-android:$ORMLITE_VERSION"
     compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
     compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+    compile "com.facebook.android:facebook-android-sdk:$FACEBOOK_VERSION"
     debugCompile "com.squareup.leakcanary:leakcanary-android:$LEAK_CANARY_VERSION"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
@@ -70,7 +76,8 @@ dependencies {
     })
 
     testCompile "junit:junit:$JUNIT_VERSION"
-    compile 'com.android.support:support-v4:25.3.0'
+    compile "com.android.support:support-v4:$SUPPORT_VERSION"
+    compile 'com.android.support.constraint:constraint-layout:+'
 }
 repositories {
     mavenCentral()
