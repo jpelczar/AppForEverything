@@ -7,8 +7,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import io.jpelczar.appforeverything.data.Account
 
-
-abstract class Authentication(val context: Context, val account: Account) {
+abstract class Authentication(val context: Context) {
 
     protected var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var firebaseAuthListener: FirebaseAuth.AuthStateListener
@@ -29,9 +28,9 @@ abstract class Authentication(val context: Context, val account: Account) {
 
     protected fun signIn(credential: AuthCredential, callback: Callback) {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
-            if (task.isSuccessful)
-                callback.onResult(SIGN_IN_SUCCESS, task.result.user.uid)
-            else
+            if (task.isSuccessful) {
+                callback.onResult(SIGN_IN_SUCCESS, null, Account().setFromFirebase(task.result.user))
+            } else
                 callback.onResult(SIGN_IN_FAIL, task.exception?.message)
         }
     }
@@ -64,7 +63,7 @@ abstract class Authentication(val context: Context, val account: Account) {
     }
 
     interface Callback {
-        fun onResult(@State state: Long, message: String? = null)
+        fun onResult(@State state: Long, message: String? = null, account: Account? = null)
     }
 
     companion object {

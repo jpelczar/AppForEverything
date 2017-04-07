@@ -2,15 +2,18 @@ package io.jpelczar.appforeverything.module.auth
 
 import android.content.Intent
 import android.content.IntentSender
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.GoogleAuthProvider
+import io.jpelczar.appforeverything.R
 import io.jpelczar.appforeverything.commons.L
 import io.jpelczar.appforeverything.data.Account
 
-class GoogleAuth(val activity: AppCompatActivity, account: Account) : Authentication(activity.applicationContext, account), GoogleApiClient.OnConnectionFailedListener {
+class GoogleAuth(val activity: AppCompatActivity) :
+        Authentication(activity.applicationContext), GoogleApiClient.OnConnectionFailedListener {
 
     val REQUEST_SIGN_IN = 324
     val REQUEST_RESOLVE_ERROR = 13214
@@ -37,16 +40,25 @@ class GoogleAuth(val activity: AppCompatActivity, account: Account) : Authentica
     override fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_SIGN_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess) {
+            if (result.isSuccess && result.signInAccount?.idToken != null) {
                 signIn(GoogleAuthProvider.getCredential(result.signInAccount!!.idToken, null),
-                        callback!!)
+                        object : Callback {
+                            override fun onResult(state: Long, message: String?, account: Account?) {
+                                if (state == SIGN_IN_SUCCESS) {
+                                    account?.photoUrl = result.signInAccount?.photoUrl ?:
+                                            Uri.parse(context.getString(R.string.placeholder_profile_image))
+                                }
+                                callback?.onResult(state, message, account)
+                            }
+                        })
             } else {
-                callback?.onResult(FAIL, " $requestCode $resultCode ${result.status.statusMessage}")
+                callback?.onResult(SIGN_IN_FAIL,
+                        "requestCode: $requestCode resultCode: $resultCode status: ${result.status.statusMessage}")
             }
         } else if (requestCode == REQUEST_RESOLVE_ERROR) {
             L.d("RESOLVE ERROR")
         } else {
-            callback?.onResult(FAIL, "Unknown request code")
+            callback?.onResult(FAIL, context.getString(R.string.unknown_request_code))
         }
     }
 

@@ -10,9 +10,9 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
-import io.jpelczar.appforeverything.data.Account
+import io.jpelczar.appforeverything.R
 
-class FacebookAuth(val activity: AppCompatActivity, account: Account) : Authentication(activity.applicationContext, account) {
+class FacebookAuth(val activity: AppCompatActivity) : Authentication(activity.applicationContext) {
 
     val loginManager: LoginManager = LoginManager.getInstance()
     val callbackManager: CallbackManager = CallbackManager.Factory.create()
@@ -26,7 +26,7 @@ class FacebookAuth(val activity: AppCompatActivity, account: Account) : Authenti
             }
 
             override fun onCancel() {
-                callback.onResult(SIGN_IN_FAIL, "canceled")
+                callback.onResult(SIGN_IN_FAIL, context.getString(R.string.canceled_sign_in))
             }
 
             override fun onSuccess(result: LoginResult?) {

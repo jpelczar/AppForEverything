@@ -5,13 +5,17 @@ import android.support.v7.app.AppCompatActivity
 import io.jpelczar.appforeverything.core.injection.activity.ActivityComponent
 import io.jpelczar.appforeverything.core.injection.activity.ActivityModule
 import io.jpelczar.appforeverything.core.injection.activity.DaggerActivityComponent
+import io.jpelczar.appforeverything.data.Account
 import io.jpelczar.appforeverything.module.auth.Authentication
+import javax.inject.Inject
 
 
 open class BaseActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var currentAccount: Account
+
     lateinit var activityComponent: ActivityComponent
-    lateinit var authentication: Authentication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

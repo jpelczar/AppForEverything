@@ -1,8 +1,11 @@
 package io.jpelczar.appforeverything.signin
 
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +22,8 @@ import io.jpelczar.appforeverything.module.auth.Authentication
 import io.jpelczar.appforeverything.module.auth.FacebookAuth
 import io.jpelczar.appforeverything.module.auth.FirebaseAuth
 import io.jpelczar.appforeverything.module.auth.GoogleAuth
-import java.util.*
 
-class SignInFragment : BaseFragment() {
+class SignInFragment : BaseFragment(), Authentication.Callback {
 
     var fragmentView: View? = null
 
@@ -49,6 +51,8 @@ class SignInFragment : BaseFragment() {
     @BindView(R.id.auth_result_text_view)
     lateinit var authOutTextView: TextView
 
+    var progressDialog: ProgressDialog? = null
+
     var authentication: Authentication? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,66 +74,60 @@ class SignInFragment : BaseFragment() {
         authentication?.handleResult(requestCode, resultCode, data)
     }
 
+    override fun onResult(state: Long, message: String?, account: Account?) {
+        if (account != null) {
+            currentAccount.fill(account)
+        }
+
+        val displayText = "${Authentication.translateAuthState(state)} - $message - $currentAccount"
+        progressDialog?.dismiss()
+        authOutTextView.text = displayText
+        L.d(displayText)
+    }
+
     fun setUpListeners() {
         signUpButton.setOnClickListener {
-            authentication = FirebaseAuth(activity.applicationContext, Account(UUID.randomUUID().toString(),
-                    mailEditText.text.toString(), passworkdEditText.text.toString(), Account.MAIL))
-            authentication?.signUp(object : Authentication.Callback {
-                override fun onResult(state: Long, message: String?) {
-                    val displayText = "${Authentication.translateAuthState(state)} - $message"
-                    authOutTextView.text = displayText
-                    L.d(displayText)
-                }
-            })
+            if (checkUserData(mailEditText.text.toString(), passworkdEditText.text.toString())) {
+                authentication = FirebaseAuth(activity.applicationContext,
+                        mailEditText.text.toString(), passworkdEditText.text.toString())
+                authentication?.signUp(this)
+            }
         }
 
         signInButton.setOnClickListener {
-            authentication = FirebaseAuth(activity.applicationContext, Account("", mailEditText.text.toString(),
-                    passworkdEditText.text.toString(), Account.MAIL))
-            authentication?.signIn(object : Authentication.Callback {
-                override fun onResult(state: Long, message: String?) {
-                    val displayText = "${Authentication.translateAuthState(state)} - $message"
-                    authOutTextView.text = displayText
-                    L.d(displayText)
-                }
-            })
+            if (checkUserData(mailEditText.text.toString(), passworkdEditText.text.toString())) {
+                authentication = FirebaseAuth(activity.applicationContext,
+                        mailEditText.text.toString(), passworkdEditText.text.toString())
+                baseSignInListener()
+            }
         }
 
         signInFacebook.setOnClickListener {
-            authentication = FacebookAuth(activity, Account("", mailEditText.text.toString(),
-                    passworkdEditText.text.toString(), Account.FACEBOOK))
-            L.d("FB start")
-            authentication?.signIn(object : Authentication.Callback {
-                override fun onResult(state: Long, message: String?) {
-                    val displayText = "${Authentication.translateAuthState(state)} - $message"
-                    authOutTextView.text = displayText
-                    L.d(displayText)
-                }
-            })
+            authentication = FacebookAuth(activity)
+            baseSignInListener()
         }
 
         signInGoogle.setOnClickListener {
-            authentication = GoogleAuth(activity, Account("", mailEditText.text.toString(),
-                    passworkdEditText.text.toString(), Account.GOOGLE))
-
-            authentication?.signIn(object : Authentication.Callback {
-                override fun onResult(state: Long, message: String?) {
-                    val displayText = "${Authentication.translateAuthState(state)} - $message"
-                    authOutTextView.text = displayText
-                    L.d(displayText)
-                }
-            })
+            authentication = GoogleAuth(activity)
+            baseSignInListener()
         }
 
         signOutButton.setOnClickListener {
-            authentication?.signOut(object : Authentication.Callback {
-                override fun onResult(state: Long, message: String?) {
-                    val displayText = "${Authentication.translateAuthState(state)} - $message"
-                    authOutTextView.text = displayText
-                    L.d(displayText)
-                }
-            })
+            authentication?.signOut(this)
         }
+    }
+
+    fun baseSignInListener() {
+        progressDialog = ProgressDialog.show(activity, "Loading", "Wait while user is authenticated...")
+        authentication?.signIn(this)
+    }
+
+    fun checkUserData(mail: String, password: String): Boolean {
+        if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(password)) {
+            AlertDialog.Builder(activity).setMessage(R.string.empty_user_data).create().show()
+            return false
+        }
+        return true
     }
 
 }

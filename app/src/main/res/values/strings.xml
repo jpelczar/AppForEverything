@@ -9,4 +9,9 @@
     <string name="signIn">Sign in</string>
     <string name="signInGoogle">Sign in google</string>
     <string name="signInFacebook">Sign in facebook</string>
+    <string name="unknown_request_code">Unknown request code</string>
+    <string name="null_id_token">Null id token</string>
+    <string name="canceled_sign_in">Sign in canceled</string>
+    <string name="placeholder_profile_image">http://lorempixel.com/200/200/</string>
+    <string name="empty_user_data">Empty mail or password</string>
 </resources>

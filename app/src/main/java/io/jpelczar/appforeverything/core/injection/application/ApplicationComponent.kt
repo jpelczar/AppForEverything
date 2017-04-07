@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import dagger.Component
 import io.jpelczar.appforeverything.core.event.RxBus
+import io.jpelczar.appforeverything.data.Account
 import javax.inject.Singleton
 
 
@@ -17,5 +18,7 @@ interface ApplicationComponent {
     fun application(): Application
 
     fun rxBus(): RxBus
+
+    fun account(): Account
 
 }
