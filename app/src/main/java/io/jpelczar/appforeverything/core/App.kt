@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import com.squareup.leakcanary.LeakCanary
+import io.jpelczar.appforeverything.ApplicationService
 import io.jpelczar.appforeverything.commons.SharedPreferencesUtil
 import io.jpelczar.appforeverything.core.injection.application.ApplicationComponent
 import io.jpelczar.appforeverything.core.injection.application.ApplicationModule

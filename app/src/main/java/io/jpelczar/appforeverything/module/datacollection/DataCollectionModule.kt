@@ -1,10 +1,13 @@
 package io.jpelczar.appforeverything.module.datacollection
 
+import android.content.Context
 import io.jpelczar.appforeverything.module.Module
+import io.jpelczar.appforeverything.module.datacollection.provider.CellDataProvider
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class DataCollectionModule @Inject constructor() : Module {
+class DataCollectionModule(val context: Context) : Module {
+
+    @Inject
+    lateinit var cellDataProvider: CellDataProvider
 
 }

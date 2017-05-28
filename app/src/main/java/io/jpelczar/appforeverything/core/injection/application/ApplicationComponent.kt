@@ -6,6 +6,7 @@ import dagger.Component
 import io.jpelczar.appforeverything.core.ModuleManager
 import io.jpelczar.appforeverything.core.event.RxBus
 import io.jpelczar.appforeverything.data.Account
+import io.jpelczar.appforeverything.module.datacollection.DataCollectionModule
 import javax.inject.Singleton
 
 
@@ -23,5 +24,9 @@ interface ApplicationComponent {
     fun account(): Account
 
     fun moduleManager(): ModuleManager
+
+    fun dataCollectionModule(): DataCollectionModule
+
+    fun inject(moduleManager: ModuleManager)
 
 }

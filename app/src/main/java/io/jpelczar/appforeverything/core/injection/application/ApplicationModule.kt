@@ -4,8 +4,10 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import io.jpelczar.appforeverything.core.ModuleManager
 import io.jpelczar.appforeverything.core.event.RxBus
 import io.jpelczar.appforeverything.data.Account
+import io.jpelczar.appforeverything.module.datacollection.DataCollectionModule
 import javax.inject.Singleton
 
 @Module
@@ -32,6 +34,18 @@ class ApplicationModule(private val application: Application) {
     @Singleton
     internal fun provideAccount(): Account {
         return Account()
+    }
+
+    @Provides
+    @Singleton
+    internal fun providesModuleManager(): ModuleManager {
+        return ModuleManager(application)
+    }
+
+    @Provides
+    @Singleton
+    internal fun providesDataCollectionModule(): DataCollectionModule {
+        return DataCollectionModule(application)
     }
 
 }

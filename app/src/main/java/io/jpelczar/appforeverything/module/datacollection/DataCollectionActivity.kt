@@ -16,6 +16,7 @@ class DataCollectionActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data_collection)
         activityComponent.inject(this)
+        moduleManager.init()
 
         L.d(moduleManager.dataCollectionModule)
     }

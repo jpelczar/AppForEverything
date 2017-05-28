@@ -87,6 +87,7 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
 
         if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
             startActivity(Intent(context, DataCollectionActivity::class.java))
+            activity.finish()
         }
     }
 

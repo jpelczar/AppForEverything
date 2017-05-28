@@ -5,6 +5,8 @@ import android.util.Log
 
 object L {
 
+    @JvmStatic var enabled = true
+
     private val CLASS_DELIMITER = "_"
 
     fun Any.getCallerCallerClassName(): String? {
@@ -26,8 +28,6 @@ object L {
         return null
     }
 
-    @JvmStatic var enabled = true
-
     fun d(any: Any?) {
         d(any?.getCallerCallerClassName(), null, any)
     }
@@ -38,7 +38,7 @@ object L {
 
     fun d(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.d(tag, "${if (label == null) label + " " else ""}${java.lang.String.valueOf(any)}")
+            Log.d(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
     fun e(any: Any?) {
@@ -51,7 +51,7 @@ object L {
 
     fun e(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.e(tag, "${if (label == null) label + " " else ""}${java.lang.String.valueOf(any)}")
+            Log.e(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
     fun i(any: Any?) {
@@ -64,7 +64,7 @@ object L {
 
     fun i(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.i(tag, "${if (label == null) label + " " else ""}${java.lang.String.valueOf(any)}")
+            Log.i(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
 }
