@@ -2,6 +2,7 @@ package io.jpelczar.appforeverything.core.injection.activity
 
 import dagger.Component
 import io.jpelczar.appforeverything.core.injection.application.ApplicationComponent
+import io.jpelczar.appforeverything.module.datacollection.DataCollectionActivity
 import io.jpelczar.appforeverything.signin.SignInActivity
 import io.jpelczar.appforeverything.signin.SignInFragment
 
@@ -10,6 +11,8 @@ import io.jpelczar.appforeverything.signin.SignInFragment
 interface ActivityComponent {
 
     fun inject(signInActivity: SignInActivity)
+
+    fun inject(dataCollectionActivity: DataCollectionActivity)
 
     fun inject(signInFragment: SignInFragment)
 

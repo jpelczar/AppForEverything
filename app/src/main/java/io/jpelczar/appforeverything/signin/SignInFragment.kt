@@ -22,6 +22,7 @@ import io.jpelczar.appforeverything.module.auth.Authentication
 import io.jpelczar.appforeverything.module.auth.FacebookAuth
 import io.jpelczar.appforeverything.module.auth.FirebaseAuth
 import io.jpelczar.appforeverything.module.auth.GoogleAuth
+import io.jpelczar.appforeverything.module.datacollection.DataCollectionActivity
 
 class SignInFragment : BaseFragment(), Authentication.Callback {
 
@@ -83,6 +84,10 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         progressDialog?.dismiss()
         authOutTextView.text = displayText
         L.d(displayText)
+
+        if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
+            startActivity(Intent(context, DataCollectionActivity::class.java))
+        }
     }
 
     fun setUpListeners() {

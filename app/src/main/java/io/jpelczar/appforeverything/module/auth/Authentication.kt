@@ -87,6 +87,18 @@ abstract class Authentication(val context: Context) {
                 else -> "Not auth state"
             }
         }
+
+        fun isAuthenticated(): Boolean {
+            return FirebaseAuth.getInstance().currentUser != null
+        }
+
+        fun getCurrentUser(): Account? {
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            return when (currentUser != null) {
+                true -> Account().setFromFirebase(currentUser!!)
+                else -> null
+            }
+        }
     }
 
     @Retention(AnnotationRetention.SOURCE)

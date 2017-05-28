@@ -5,11 +5,15 @@ import android.content.SharedPreferences
 
 object SharedPreferencesUtil {
     
-    lateinit var context: Context
+    lateinit private var context: Context
+
+    fun init(context: Context){
+        this.context = context
+    }
 
     fun getPreferences(name: String): SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
-    fun getEditablePreferences(name: String): SharedPreferences.Editor = getPreferences(name).edit().clear()
+    fun getEditablePreferences(name: String): SharedPreferences.Editor = getPreferences(name).edit()
 
     fun persist(sharedPrefName: String, key: String, value: String) = getEditablePreferences(sharedPrefName).putString(key, value).commit()
 
@@ -37,6 +41,6 @@ object SharedPreferencesUtil {
 
     fun loadStringSet(sharedPrefName: String, key: String): Set<String>? = load(sharedPrefName, key) as Set<String>? ?: HashSet<String>()
 
-    fun remove(sharedPrefName: String, key: String) = getPreferences(sharedPrefName).edit().remove(key).commit()
+    fun remove(sharedPrefName: String, key: String) = getPreferences(sharedPrefName).edit().remove(key).apply()
 
 }
