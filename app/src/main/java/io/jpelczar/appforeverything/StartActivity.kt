@@ -12,8 +12,6 @@ class StartActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
-
         activityComponent.inject(this)
 
         if (Authentication.isAuthenticated()) {

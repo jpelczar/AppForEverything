@@ -14,4 +14,7 @@
     <string name="canceled_sign_in">Sign in canceled</string>
     <string name="placeholder_profile_image">http://lorempixel.com/200/200/</string>
     <string name="empty_user_data">Empty mail or password</string>
+    <string name="drawer_open">Open drawer</string>
+    <string name="drawer_close">Close drawer</string>
+    <string name="tmp">Tmp</string>
 </resources>

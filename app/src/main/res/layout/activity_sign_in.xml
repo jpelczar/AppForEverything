@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="io.jpelczar.appforeverything.signin.SignInActivity">
-
-    <include
-        layout="@layout/toolbar"/>
-
-    <FrameLayout
-        android:id="@+id/main_frame"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-</LinearLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/main_frame"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="io.jpelczar.appforeverything.signin.SignInActivity"/>

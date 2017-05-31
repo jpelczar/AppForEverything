@@ -49,9 +49,6 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
     @BindView(R.id.password_edit_text)
     lateinit var passworkdEditText: EditText
 
-    @BindView(R.id.auth_result_text_view)
-    lateinit var authOutTextView: TextView
-
     var progressDialog: ProgressDialog? = null
 
     var authentication: Authentication? = null
@@ -80,10 +77,8 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
             currentAccount.fill(account)
         }
 
-        val displayText = "${Authentication.translateAuthState(state)} - $message - $currentAccount"
         progressDialog?.dismiss()
-        authOutTextView.text = displayText
-        L.d(displayText)
+        L.d("${Authentication.translateAuthState(state)} - $message - $currentAccount")
 
         if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
             startActivity(Intent(context, DataCollectionActivity::class.java))
