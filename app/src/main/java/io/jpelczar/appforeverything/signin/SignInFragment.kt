@@ -11,11 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import io.jpelczar.appforeverything.R
 import io.jpelczar.appforeverything.commons.L
+import io.jpelczar.appforeverything.commons.LogPrefix.AUTH
 import io.jpelczar.appforeverything.core.BaseFragment
 import io.jpelczar.appforeverything.data.Account
 import io.jpelczar.appforeverything.module.auth.Authentication
@@ -78,7 +78,7 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         }
 
         progressDialog?.dismiss()
-        L.d("${Authentication.translateAuthState(state)} - $message - $currentAccount")
+        L.d(AUTH, "${Authentication.translateAuthState(state)} - $message - $currentAccount")
 
         if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
             startActivity(Intent(context, DataCollectionActivity::class.java))

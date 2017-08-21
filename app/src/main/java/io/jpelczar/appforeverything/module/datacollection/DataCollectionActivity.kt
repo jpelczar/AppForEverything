@@ -11,9 +11,10 @@ import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
 import io.jpelczar.appforeverything.R
-import io.jpelczar.appforeverything.commons.L
+import io.jpelczar.appforeverything.commons.FragmentHelper
 import io.jpelczar.appforeverything.core.BaseActivity
 import io.jpelczar.appforeverything.core.ModuleManager
+import io.jpelczar.appforeverything.module.datacollection.cell.CellDataCollectionFragment
 import javax.inject.Inject
 
 class DataCollectionActivity : BaseActivity() {
@@ -54,6 +55,8 @@ class DataCollectionActivity : BaseActivity() {
         drawerToggle?.isDrawerIndicatorEnabled = true
         drawerLayout.addDrawerListener(drawerToggle!!)
         drawerToggle?.syncState()
+
+        FragmentHelper.replaceFragment(this, CellDataCollectionFragment(), R.id.main_frame)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {

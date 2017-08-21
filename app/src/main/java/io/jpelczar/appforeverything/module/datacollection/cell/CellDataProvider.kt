@@ -1,4 +1,4 @@
-package io.jpelczar.appforeverything.module.datacollection.provider
+package io.jpelczar.appforeverything.module.datacollection.cell
 
 import android.content.Context
 
