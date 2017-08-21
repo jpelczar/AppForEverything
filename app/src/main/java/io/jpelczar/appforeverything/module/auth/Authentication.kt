@@ -3,8 +3,11 @@ package io.jpelczar.appforeverything.module.auth
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.IntDef
+import android.support.v7.app.AppCompatActivity
+import android.text.format.DateUtils.DAY_IN_MILLIS
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
+import io.jpelczar.appforeverything.commons.SharedPreferencesUtil
 import io.jpelczar.appforeverything.data.Account
 
 abstract class Authentication(val context: Context) {
@@ -29,6 +32,7 @@ abstract class Authentication(val context: Context) {
     protected fun signIn(credential: AuthCredential, callback: Callback) {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                SharedPreferencesUtil.persist(USER_SHARED_PREF_NAME, USER_EXPIRED_SHARED_PREF_KEY, System.currentTimeMillis())
                 callback.onResult(SIGN_IN_SUCCESS, null, Account().setFromFirebase(task.result.user))
             } else
                 callback.onResult(SIGN_IN_FAIL, task.exception?.message)
@@ -75,6 +79,10 @@ abstract class Authentication(val context: Context) {
         const val SIGN_UP_FAIL = 5L
         const val FAIL = 6L
 
+        const val USER_SHARED_PREF_NAME = "USER_SHARED_PREF_NAME"
+        private const val USER_EXPIRED_SHARED_PREF_KEY = "USER_EXPIRED_SHARED_PREF_KEY"
+        private const val EXPIRED_PERIOD = 7 * DAY_IN_MILLIS
+
         fun translateAuthState(value: Long): String {
             return when (value) {
                 SIGN_IN_SUCCESS -> "Sign in success"
@@ -86,6 +94,34 @@ abstract class Authentication(val context: Context) {
                 FAIL -> "Something went wrong"
                 else -> "Not auth state"
             }
+        }
+
+        fun isAuthenticated(): Boolean = FirebaseAuth.getInstance().currentUser != null
+
+
+        fun getCurrentUser(): Account? {
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            return when (currentUser != null) {
+                true -> Account().setFromFirebase(currentUser!!)
+                else -> null
+            }
+        }
+
+        fun isExpired(): Boolean = (SharedPreferencesUtil.loadLong(USER_SHARED_PREF_NAME,
+                USER_EXPIRED_SHARED_PREF_KEY) ?: 0) < (System.currentTimeMillis() - EXPIRED_PERIOD)
+
+        fun getAuthenticatorForAccount(activity: AppCompatActivity, account: Account?): Authentication? {
+            if (account == null)
+                return null
+
+            val providers = account.providers
+            var authenticator: Authentication = io.jpelczar.appforeverything.module.auth
+                    .FirebaseAuth(activity.applicationContext)
+            if (providers.filter { item -> item == Account.GOOGLE }.isNotEmpty()) {
+                authenticator = GoogleAuth(activity)
+            }
+
+            return authenticator
         }
     }
 

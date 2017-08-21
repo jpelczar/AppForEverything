@@ -10,6 +10,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.GoogleAuthProvider
 import io.jpelczar.appforeverything.R
 import io.jpelczar.appforeverything.commons.L
+import io.jpelczar.appforeverything.commons.LogPrefix.AUTH
 import io.jpelczar.appforeverything.data.Account
 
 class GoogleAuth(val activity: AppCompatActivity) :
@@ -56,7 +57,7 @@ class GoogleAuth(val activity: AppCompatActivity) :
                         "requestCode: $requestCode resultCode: $resultCode status: ${result.status.statusMessage}")
             }
         } else if (requestCode == REQUEST_RESOLVE_ERROR) {
-            L.d("RESOLVE ERROR")
+            L.d(AUTH, "RESOLVE ERROR")
         } else {
             callback?.onResult(FAIL, context.getString(R.string.unknown_request_code))
         }

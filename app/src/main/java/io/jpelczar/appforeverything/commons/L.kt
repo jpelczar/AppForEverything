@@ -1,38 +1,70 @@
 package io.jpelczar.appforeverything.commons
 
 import android.util.Log
-import io.jpelczar.appforeverything.core.App
 
 
 object L {
 
     @JvmStatic var enabled = true
 
-    fun d(any: Any?) {
-        d(App.TAG, any)
+    private val CLASS_DELIMITER = "_"
+
+    fun Any.getCallerCallerClassName(): String? {
+        val stackTraceElements = Thread.currentThread().stackTrace
+        (1..stackTraceElements.size)
+                .asSequence()
+                .map { stackTraceElements[it] }
+                .filter { it.className.indexOf(Thread::class.java.canonicalName) != 0 }
+                .filter { it.className != L.javaClass.canonicalName }
+                .forEach {
+                    return it.className
+                            .split(Regex("\\."))
+                            .last()
+                            .split(Regex("(?=[A-Z])"))
+                            .joinToString(CLASS_DELIMITER)
+                            .removePrefix(CLASS_DELIMITER)
+                            .toUpperCase()
+                }
+        return null
     }
 
-    fun d(tag: String, any: Any?) {
+    fun d(any: Any?) {
+        d(any?.getCallerCallerClassName(), null, any)
+    }
+
+    fun d(label: String, any: Any?) {
+        d(any?.getCallerCallerClassName(), label, any)
+    }
+
+    fun d(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.d(tag, java.lang.String.valueOf(any))
+            Log.d(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
     fun e(any: Any?) {
-        d(App.TAG, any)
+        e(any?.getCallerCallerClassName(), null, any)
     }
 
-    fun e(tag: String, any: Any?) {
+    fun e(label: String, any: Any?) {
+        e(any?.getCallerCallerClassName(), label, any)
+    }
+
+    fun e(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.d(tag, java.lang.String.valueOf(any))
+            Log.e(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
     fun i(any: Any?) {
-        d(App.TAG, any)
+        i(any?.getCallerCallerClassName(), null, any)
     }
 
-    fun i(tag: String, any: Any?) {
+    fun i(label: String, any: Any?) {
+        i(any?.getCallerCallerClassName(), label, any)
+    }
+
+    fun i(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.d(tag, java.lang.String.valueOf(any))
+            Log.i(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
 }

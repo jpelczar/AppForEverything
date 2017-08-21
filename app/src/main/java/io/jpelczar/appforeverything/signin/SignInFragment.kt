@@ -11,17 +11,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import io.jpelczar.appforeverything.R
 import io.jpelczar.appforeverything.commons.L
+import io.jpelczar.appforeverything.commons.LogPrefix.AUTH
 import io.jpelczar.appforeverything.core.BaseFragment
 import io.jpelczar.appforeverything.data.Account
 import io.jpelczar.appforeverything.module.auth.Authentication
 import io.jpelczar.appforeverything.module.auth.FacebookAuth
 import io.jpelczar.appforeverything.module.auth.FirebaseAuth
 import io.jpelczar.appforeverything.module.auth.GoogleAuth
+import io.jpelczar.appforeverything.module.datacollection.DataCollectionActivity
 
 class SignInFragment : BaseFragment(), Authentication.Callback {
 
@@ -47,9 +48,6 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
 
     @BindView(R.id.password_edit_text)
     lateinit var passworkdEditText: EditText
-
-    @BindView(R.id.auth_result_text_view)
-    lateinit var authOutTextView: TextView
 
     var progressDialog: ProgressDialog? = null
 
@@ -79,10 +77,13 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
             currentAccount.fill(account)
         }
 
-        val displayText = "${Authentication.translateAuthState(state)} - $message - $currentAccount"
         progressDialog?.dismiss()
-        authOutTextView.text = displayText
-        L.d(displayText)
+        L.d(AUTH, "${Authentication.translateAuthState(state)} - $message - $currentAccount")
+
+        if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
+            startActivity(Intent(context, DataCollectionActivity::class.java))
+            activity.finish()
+        }
     }
 
     fun setUpListeners() {
