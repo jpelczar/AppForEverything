@@ -9,7 +9,7 @@ import io.jpelczar.appforeverything.data.Account
 import javax.inject.Inject
 
 
-open class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     @Inject
     lateinit var currentAccount: Account
