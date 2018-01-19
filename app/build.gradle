@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "io.jpelczar.appforeverything"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,8 +32,8 @@ kapt {
 }
 
 dependencies {
-    def SUPPORT_VERSION = "25.3.1"
-    def FIREBASE_VERSION = "10.2.6"
+    def SUPPORT_VERSION = "27.0.2"
+    def FIREBASE_VERSION = "11.8.0"
     def DAGGER_VERSION = "2.9"
     def JSR250_VERSION = "1.0"
     def GSON_VERSION = "2.8.0"
@@ -50,35 +50,35 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     kapt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
 
-    provided "javax.annotation:jsr250-api:$JSR250_VERSION"
+    compileOnly "javax.annotation:jsr250-api:$JSR250_VERSION"
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile "com.android.support:appcompat-v7:$SUPPORT_VERSION"
-    compile "com.android.support:design:$SUPPORT_VERSION"
-    compile "com.google.firebase:firebase-database:$FIREBASE_VERSION"
-    compile "com.google.firebase:firebase-auth:$FIREBASE_VERSION"
-    compile "com.google.android.gms:play-services-auth:$FIREBASE_VERSION"
-    compile "com.google.dagger:dagger:$DAGGER_VERSION"
-    compile "com.google.code.gson:gson:$GSON_VERSION"
-    compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
-    compile "io.reactivex.rxjava2:rxandroid:$RX_VERSION"
-    compile "io.reactivex.rxjava2:rxjava:$RX_VERSION"
-    compile "com.j256.ormlite:ormlite-android:$ORMLITE_VERSION"
-    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
-    compile "com.facebook.android:facebook-android-sdk:$FACEBOOK_VERSION"
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$LEAK_CANARY_VERSION"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$SUPPORT_VERSION"
+    implementation "com.android.support:design:$SUPPORT_VERSION"
+    implementation "com.google.firebase:firebase-database:$FIREBASE_VERSION"
+    implementation "com.google.firebase:firebase-auth:$FIREBASE_VERSION"
+    implementation "com.google.android.gms:play-services-auth:$FIREBASE_VERSION"
+    implementation "com.google.dagger:dagger:$DAGGER_VERSION"
+    implementation "com.google.code.gson:gson:$GSON_VERSION"
+    implementation "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
+    implementation "io.reactivex.rxjava2:rxandroid:$RX_VERSION"
+    implementation "io.reactivex.rxjava2:rxjava:$RX_VERSION"
+    implementation "com.j256.ormlite:ormlite-android:$ORMLITE_VERSION"
+    implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+    implementation "com.facebook.android:facebook-android-sdk:$FACEBOOK_VERSION"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$LEAK_CANARY_VERSION"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
 
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION", {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testCompile "junit:junit:$JUNIT_VERSION"
-    compile "com.android.support:support-v4:$SUPPORT_VERSION"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation "junit:junit:$JUNIT_VERSION"
+    implementation "com.android.support:support-v4:$SUPPORT_VERSION"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 repositories {
     mavenCentral()

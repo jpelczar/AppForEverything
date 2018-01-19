@@ -8,7 +8,7 @@ import io.jpelczar.appforeverything.core.BaseActivity
 
 class SignInActivity : BaseActivity() {
 
-    val signInFragment = SignInFragment()
+    private val signInFragment = SignInFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

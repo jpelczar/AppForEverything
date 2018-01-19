@@ -26,7 +26,7 @@ import io.jpelczar.appforeverything.module.datacollection.DataCollectionActivity
 
 class SignInFragment : BaseFragment(), Authentication.Callback {
 
-    var fragmentView: View? = null
+    private var fragmentView: View? = null
 
     @BindView(R.id.sign_up_button)
     lateinit var signUpButton: Button
@@ -47,19 +47,15 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
     lateinit var mailEditText: EditText
 
     @BindView(R.id.password_edit_text)
-    lateinit var passworkdEditText: EditText
+    lateinit var passwordEditText: EditText
 
-    var progressDialog: ProgressDialog? = null
+    private var progressDialog: ProgressDialog? = null
 
-    var authentication: Authentication? = null
+    private var authentication: Authentication? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        fragmentView = inflater!!.inflate(R.layout.fragment_sign_in, container, false)
+        fragmentView = inflater.inflate(R.layout.fragment_sign_in, container, false)
         ButterKnife.bind(this, fragmentView!!)
 
         setUpListeners()
@@ -86,19 +82,19 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         }
     }
 
-    fun setUpListeners() {
+    private fun setUpListeners() {
         signUpButton.setOnClickListener {
-            if (checkUserData(mailEditText.text.toString(), passworkdEditText.text.toString())) {
+            if (checkUserData(mailEditText.text.toString(), passwordEditText.text.toString())) {
                 authentication = FirebaseAuth(activity.applicationContext,
-                        mailEditText.text.toString(), passworkdEditText.text.toString())
+                        mailEditText.text.toString(), passwordEditText.text.toString())
                 authentication?.signUp(this)
             }
         }
 
         signInButton.setOnClickListener {
-            if (checkUserData(mailEditText.text.toString(), passworkdEditText.text.toString())) {
+            if (checkUserData(mailEditText.text.toString(), passwordEditText.text.toString())) {
                 authentication = FirebaseAuth(activity.applicationContext,
-                        mailEditText.text.toString(), passworkdEditText.text.toString())
+                        mailEditText.text.toString(), passwordEditText.text.toString())
                 baseSignInListener()
             }
         }
@@ -118,12 +114,12 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         }
     }
 
-    fun baseSignInListener() {
+    private fun baseSignInListener() {
         progressDialog = ProgressDialog.show(activity, "Loading", "Wait while user is authenticated...")
         authentication?.signIn(this)
     }
 
-    fun checkUserData(mail: String, password: String): Boolean {
+    private fun checkUserData(mail: String, password: String): Boolean {
         if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(password)) {
             AlertDialog.Builder(activity).setMessage(R.string.empty_user_data).create().show()
             return false

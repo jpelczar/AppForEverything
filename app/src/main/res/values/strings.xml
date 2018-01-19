@@ -4,11 +4,11 @@
     <string name="mail">Mail</string>
     <string name="password">Password</string>
 
-    <string name="signUp">Sign up</string>
-    <string name="signOut">Sign out</string>
-    <string name="signIn">Sign in</string>
-    <string name="signInGoogle">Sign in google</string>
-    <string name="signInFacebook">Sign in facebook</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_google">Sign in google</string>
+    <string name="sign_in_facebook">Sign in facebook</string>
     <string name="unknown_request_code">Unknown request code</string>
     <string name="null_id_token">Null id token</string>
     <string name="canceled_sign_in">Sign in canceled</string>

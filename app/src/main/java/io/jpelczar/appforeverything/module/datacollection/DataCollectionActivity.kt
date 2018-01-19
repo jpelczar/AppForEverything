@@ -42,12 +42,12 @@ class DataCollectionActivity : BaseActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
 
         drawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
-            override fun onDrawerOpened(drawerView: View?) {
+            override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
                 invalidateOptionsMenu()
             }
 
-            override fun onDrawerClosed(drawerView: View?) {
+            override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
                 invalidateOptionsMenu()
             }
