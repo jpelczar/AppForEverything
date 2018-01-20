@@ -3,12 +3,12 @@ package io.jpelczar.appforeverything.module.datacollection
 import android.os.Bundle
 import io.jpelczar.appforeverything.R
 import io.jpelczar.appforeverything.commons.FragmentHelper
-import io.jpelczar.appforeverything.core.BaseDrawerActivity
 import io.jpelczar.appforeverything.core.ModuleManager
+import io.jpelczar.appforeverything.module.ModuleBaseActivity
 import io.jpelczar.appforeverything.module.datacollection.cell.CellDataCollectionFragment
 import javax.inject.Inject
 
-class DataCollectionActivity : BaseDrawerActivity() {
+class DataCollectionActivity : ModuleBaseActivity() {
 
     @Inject
     lateinit var moduleManager: ModuleManager

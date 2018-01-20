@@ -3,11 +3,13 @@ package io.jpelczar.appforeverything.core
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.widget.FrameLayout
 import butterknife.BindView
 import butterknife.ButterKnife
 import io.jpelczar.appforeverything.R
@@ -23,9 +25,16 @@ abstract class BaseDrawerActivity : BaseActivity() {
     @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
 
+    @BindView(R.id.navigation)
+    lateinit var navigation: NavigationView
+
+    lateinit var headerContainer: FrameLayout
+
     private var drawerToggle: ActionBarDrawerToggle? = null
 
     abstract fun getLayoutId(): Int
+
+    abstract fun initNavigationHeader()
 
     abstract fun inject()
 
@@ -59,6 +68,10 @@ abstract class BaseDrawerActivity : BaseActivity() {
         drawerToggle?.isDrawerIndicatorEnabled = true
         drawerLayout.addDrawerListener(drawerToggle!!)
         drawerToggle?.syncState()
+
+        headerContainer = navigation.getHeaderView(0) as FrameLayout
+
+        initNavigationHeader()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
