@@ -12,7 +12,7 @@ import io.jpelczar.appforeverything.data.Account
 
 abstract class Authentication(val context: Context) {
 
-    protected var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var firebaseAuthListener: FirebaseAuth.AuthStateListener
 
     abstract fun signIn(callback: Callback)
@@ -32,7 +32,7 @@ abstract class Authentication(val context: Context) {
     protected fun signIn(credential: AuthCredential, callback: Callback) {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                SharedPreferencesUtil.persist(USER_SHARED_PREF_NAME, USER_EXPIRED_SHARED_PREF_KEY, System.currentTimeMillis())
+                SharedPreferencesUtil.persist(context, USER_SHARED_PREF_NAME, USER_EXPIRED_SHARED_PREF_KEY, System.currentTimeMillis())
                 callback.onResult(SIGN_IN_SUCCESS, null, Account().setFromFirebase(task.result.user))
             } else
                 callback.onResult(SIGN_IN_FAIL, task.exception?.message)
@@ -107,7 +107,7 @@ abstract class Authentication(val context: Context) {
             }
         }
 
-        fun isExpired(): Boolean = (SharedPreferencesUtil.loadLong(USER_SHARED_PREF_NAME,
+        fun isExpired(context: Context): Boolean = (SharedPreferencesUtil.loadLong(context, USER_SHARED_PREF_NAME,
                 USER_EXPIRED_SHARED_PREF_KEY) ?: 0) < (System.currentTimeMillis() - EXPIRED_PERIOD)
 
         fun getAuthenticatorForAccount(activity: AppCompatActivity, account: Account?): Authentication? {
@@ -117,7 +117,7 @@ abstract class Authentication(val context: Context) {
             val providers = account.providers
             var authenticator: Authentication = io.jpelczar.appforeverything.module.auth
                     .FirebaseAuth(activity.applicationContext)
-            if (providers.filter { item -> item == Account.GOOGLE }.isNotEmpty()) {
+            if (providers.any { item -> item == Account.GOOGLE }) {
                 authenticator = GoogleAuth(activity)
             }
 

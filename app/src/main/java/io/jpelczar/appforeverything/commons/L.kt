@@ -7,9 +7,9 @@ object L {
 
     @JvmStatic var enabled = true
 
-    private val CLASS_DELIMITER = "_"
+    private const val CLASS_DELIMITER = "_"
 
-    fun Any.getCallerCallerClassName(): String? {
+    private fun getCallerCallerClassName(): String? {
         val stackTraceElements = Thread.currentThread().stackTrace
         (1..stackTraceElements.size)
                 .asSequence()
@@ -29,42 +29,42 @@ object L {
     }
 
     fun d(any: Any?) {
-        d(any?.getCallerCallerClassName(), null, any)
+        d(getCallerCallerClassName(), null, any)
     }
 
     fun d(label: String, any: Any?) {
-        d(any?.getCallerCallerClassName(), label, any)
+        d(getCallerCallerClassName(), label, any)
     }
 
     fun d(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.d(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
+            Log.d(tag, "${LogPrefix.APP}${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
     fun e(any: Any?) {
-        e(any?.getCallerCallerClassName(), null, any)
+        e(getCallerCallerClassName(), null, any)
     }
 
     fun e(label: String, any: Any?) {
-        e(any?.getCallerCallerClassName(), label, any)
+        e(getCallerCallerClassName(), label, any)
     }
 
     fun e(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.e(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
+            Log.e(tag, "${LogPrefix.APP}${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
     fun i(any: Any?) {
-        i(any?.getCallerCallerClassName(), null, any)
+        i(getCallerCallerClassName(), null, any)
     }
 
     fun i(label: String, any: Any?) {
-        i(any?.getCallerCallerClassName(), label, any)
+        i(getCallerCallerClassName(), label, any)
     }
 
     fun i(tag: String?, label: String?, any: Any?) {
         if (enabled)
-            Log.i(tag, "${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
+            Log.i(tag, "${LogPrefix.APP}${if (label != null) label + " " else ""}${java.lang.String.valueOf(any)}")
     }
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import io.jpelczar.appforeverything.commons.L
 import io.jpelczar.appforeverything.commons.LogPrefix.AUTH
 import io.jpelczar.appforeverything.core.BaseActivity
+import io.jpelczar.appforeverything.module.auth.AccountPersister
 import io.jpelczar.appforeverything.module.auth.Authentication
 import io.jpelczar.appforeverything.module.datacollection.DataCollectionActivity
 import io.jpelczar.appforeverything.signin.SignInActivity
@@ -16,11 +17,11 @@ class StartActivity : BaseActivity() {
         activityComponent.inject(this)
 
         if (Authentication.isAuthenticated()) {
-            currentAccount.fill(Authentication.getCurrentUser()!!)
+            currentAccount.fill(AccountPersister.load(applicationContext))
             L.d(AUTH, "Current account - $currentAccount")
-            if (Authentication.isExpired()) {
+            if (Authentication.isExpired(applicationContext)) {
                 L.d(AUTH, "Auth expired")
-                Authentication.getAuthenticatorForAccount(this, currentAccount)
+                Authentication.getAuthenticatorForAccount(this, currentAccount) //TODO sign Out
                 startActivity(Intent(this, SignInActivity::class.java))
             } else {
                 startActivity(Intent(this, DataCollectionActivity::class.java))

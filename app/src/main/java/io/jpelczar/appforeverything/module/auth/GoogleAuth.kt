@@ -10,14 +10,17 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.GoogleAuthProvider
 import io.jpelczar.appforeverything.R
 import io.jpelczar.appforeverything.commons.L
+import io.jpelczar.appforeverything.commons.LogPrefix
 import io.jpelczar.appforeverything.commons.LogPrefix.AUTH
 import io.jpelczar.appforeverything.data.Account
 
 class GoogleAuth(val activity: AppCompatActivity) :
         Authentication(activity.applicationContext), GoogleApiClient.OnConnectionFailedListener {
 
-    val REQUEST_SIGN_IN = 324
-    val REQUEST_RESOLVE_ERROR = 13214
+    companion object {
+        private const val REQUEST_SIGN_IN = 324
+        private const val REQUEST_RESOLVE_ERROR = 13214
+    }
 
     var googleApiClient: GoogleApiClient? = null
     var callback: Callback? = null
@@ -46,8 +49,7 @@ class GoogleAuth(val activity: AppCompatActivity) :
                         object : Callback {
                             override fun onResult(state: Long, message: String?, account: Account?) {
                                 if (state == SIGN_IN_SUCCESS) {
-                                    account?.photoUrl = result.signInAccount?.photoUrl ?:
-                                            Uri.parse(context.getString(R.string.placeholder_profile_image))
+                                    account?.photoUrl = result.signInAccount?.photoUrl ?: Uri.parse(context.getString(R.string.placeholder_profile_image_uri))
                                 }
                                 callback?.onResult(state, message, account)
                             }
@@ -64,17 +66,15 @@ class GoogleAuth(val activity: AppCompatActivity) :
     }
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        if (resolvingError)
-            return
-        else if (connectionResult.hasResolution()) {
-            try {
+        when {
+            resolvingError -> return
+            connectionResult.hasResolution() -> try {
                 resolvingError = true
                 connectionResult.startResolutionForResult(activity, REQUEST_RESOLVE_ERROR)
             } catch (e: IntentSender.SendIntentException) {
                 googleApiClient?.connect()
             }
-        } else {
-            callback?.onResult(FAIL, connectionResult.errorMessage)
+            else -> callback?.onResult(FAIL, connectionResult.errorMessage)
         }
     }
 }

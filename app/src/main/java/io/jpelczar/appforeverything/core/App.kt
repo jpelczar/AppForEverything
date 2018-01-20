@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import com.squareup.leakcanary.LeakCanary
 import io.jpelczar.appforeverything.ApplicationService
-import io.jpelczar.appforeverything.commons.SharedPreferencesUtil
 import io.jpelczar.appforeverything.core.injection.application.ApplicationComponent
 import io.jpelczar.appforeverything.core.injection.application.ApplicationModule
 import io.jpelczar.appforeverything.core.injection.application.DaggerApplicationComponent
@@ -13,7 +12,8 @@ import io.jpelczar.appforeverything.core.injection.application.DaggerApplication
 
 class App : Application() {
     companion object {
-        @JvmStatic lateinit var applicationComponent: ApplicationComponent
+        @JvmStatic
+        lateinit var applicationComponent: ApplicationComponent
 
         operator fun get(context: Context): App {
             return context.applicationContext as App
@@ -31,7 +31,6 @@ class App : Application() {
         LeakCanary.install(this)
 
         applicationComponent = DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this)).build()
-        SharedPreferencesUtil.init(this)
         startService(Intent(this, ApplicationService::class.java))
     }
 }
