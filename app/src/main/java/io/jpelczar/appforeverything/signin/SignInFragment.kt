@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import io.jpelczar.appforeverything.R
@@ -18,7 +19,10 @@ import io.jpelczar.appforeverything.commons.L
 import io.jpelczar.appforeverything.commons.LogPrefix.AUTH
 import io.jpelczar.appforeverything.core.BaseFragment
 import io.jpelczar.appforeverything.data.Account
-import io.jpelczar.appforeverything.module.auth.*
+import io.jpelczar.appforeverything.module.auth.Authentication
+import io.jpelczar.appforeverything.module.auth.FacebookAuth
+import io.jpelczar.appforeverything.module.auth.FirebaseAuth
+import io.jpelczar.appforeverything.module.auth.GoogleAuth
 import io.jpelczar.appforeverything.module.datacollection.DataCollectionActivity
 
 class SignInFragment : BaseFragment(), Authentication.Callback {
@@ -36,9 +40,6 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
 
     @BindView(R.id.sign_in_google_button)
     lateinit var signInGoogle: Button
-
-    @BindView(R.id.sign_out_button)
-    lateinit var signOutButton: Button
 
     @BindView(R.id.mail_edit_text)
     lateinit var mailEditText: EditText
@@ -76,12 +77,14 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
             startActivity(Intent(context, DataCollectionActivity::class.java))
             activity.finish()
+        } else {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setUpListeners() {
         signUpButton.setOnClickListener {
-            if (checkUserData(mailEditText.text.toString(), passwordEditText.text.toString())) {
+            if (checkUserDataAndShowFail(mailEditText.text.toString(), passwordEditText.text.toString())) {
                 authentication = FirebaseAuth(activity.applicationContext,
                         mailEditText.text.toString(), passwordEditText.text.toString())
                 authentication?.signUp(this)
@@ -89,7 +92,7 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         }
 
         signInButton.setOnClickListener {
-            if (checkUserData(mailEditText.text.toString(), passwordEditText.text.toString())) {
+            if (checkUserDataAndShowFail(mailEditText.text.toString(), passwordEditText.text.toString())) {
                 authentication = FirebaseAuth(activity.applicationContext,
                         mailEditText.text.toString(), passwordEditText.text.toString())
                 baseSignInListener()
@@ -105,10 +108,6 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
             authentication = GoogleAuth(activity)
             baseSignInListener()
         }
-
-        signOutButton.setOnClickListener {
-            authentication?.signOut(this)
-        }
     }
 
     private fun baseSignInListener() {
@@ -116,7 +115,7 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         authentication?.signIn(this)
     }
 
-    private fun checkUserData(mail: String, password: String): Boolean {
+    private fun checkUserDataAndShowFail(mail: String, password: String): Boolean {
         if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(password)) {
             AlertDialog.Builder(activity).setMessage(R.string.empty_user_data).create().show()
             return false
