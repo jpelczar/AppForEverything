@@ -57,6 +57,7 @@ class Account : BaseStoredData {
         this.name = user.displayName ?: ""
         this.mail = user.email ?: ""
         this.type = translateProvider(user.providerId)
+        this.photoUrl = user.photoUrl ?: this.photoUrl
         user.providers?.forEach { provider -> this.providers.add(translateProvider(provider)) }
         return this
     }

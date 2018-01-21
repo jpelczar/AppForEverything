@@ -14,12 +14,16 @@ import io.jpelczar.appforeverything.R
 
 class FacebookAuth(val activity: AppCompatActivity) : Authentication(activity.applicationContext) {
 
-    val loginManager: LoginManager = LoginManager.getInstance()
-    val callbackManager: CallbackManager = CallbackManager.Factory.create()
+    private val loginManager: LoginManager = LoginManager.getInstance()
+    private val callbackManager: CallbackManager = CallbackManager.Factory.create()
     var accessToken: AccessToken? = null
 
-    override fun signIn(callback: Callback) {
+    override fun signOut(callback: Callback) {
+        loginManager.logOut()
+        super.signOut(callback)
+    }
 
+    override fun signIn(callback: Callback) {
         loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onError(error: FacebookException?) {
                 callback.onResult(SIGN_IN_FAIL, error?.message)

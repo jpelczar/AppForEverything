@@ -33,7 +33,9 @@ abstract class Authentication(val context: Context) {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 AccountPersister.refreshValidationPeriod(context)
-                callback.onResult(SIGN_IN_SUCCESS, null, Account().setFromFirebase(task.result.user))
+                val account = Account().setFromFirebase(task.result.user)
+                AccountPersister.persist(context, account)
+                callback.onResult(SIGN_IN_SUCCESS, null, account)
             } else
                 callback.onResult(SIGN_IN_FAIL, task.exception?.message)
         }

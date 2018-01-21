@@ -2,6 +2,7 @@ package io.jpelczar.appforeverything.module.auth
 
 import android.content.Context
 import android.net.Uri
+import android.text.TextUtils
 import android.text.format.DateUtils
 import io.jpelczar.appforeverything.commons.SharedPreferencesUtil
 import io.jpelczar.appforeverything.commons.SharedPreferencesUtil.loadString
@@ -37,7 +38,9 @@ object AccountPersister {
         account.mail = loadString(context, USER_SHARED_PREF_NAME, MAIL_KEY) ?: ""
         account.name = loadString(context, USER_SHARED_PREF_NAME, NAME_KEY) ?: ""
         account.type = loadString(context, USER_SHARED_PREF_NAME, TYPE_KEY) ?: ""
-        account.photoUrl = Uri.parse(loadString(context, USER_SHARED_PREF_NAME, PHOTO_URL_KEY))
+        val photoUrl = loadString(context, USER_SHARED_PREF_NAME, PHOTO_URL_KEY)
+        if (TextUtils.isEmpty(photoUrl))
+            account.photoUrl = Uri.parse(photoUrl)
         account.providers.addAll(loadStringSet(context, USER_SHARED_PREF_NAME, PROVIDERS_KEY)
                 ?: ArrayList())
 

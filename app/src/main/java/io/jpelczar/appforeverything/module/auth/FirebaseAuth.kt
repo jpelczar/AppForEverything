@@ -5,7 +5,7 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import io.jpelczar.appforeverything.data.Account
 
-class FirebaseAuth(context: Context, val mail: String = "", val password: String= "") : Authentication(context) {
+class FirebaseAuth(context: Context, private val mail: String = "", private val password: String= "") : Authentication(context) {
 
     override fun signUp(callback: Callback) {
         signUp(EmailAuthProvider.getCredential(mail, password), callback)

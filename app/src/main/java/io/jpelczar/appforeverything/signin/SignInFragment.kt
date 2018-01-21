@@ -74,7 +74,6 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         L.d(AUTH, "${Authentication.translateAuthState(state)} - $message")
 
         if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
-            AccountPersister.persist(activity, currentAccount)
             startActivity(Intent(context, DataCollectionActivity::class.java))
             activity.finish()
         }
