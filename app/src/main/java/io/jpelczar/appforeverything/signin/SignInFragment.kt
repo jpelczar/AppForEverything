@@ -71,7 +71,7 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         }
 
         progressDialog?.dismiss()
-        L.d(AUTH, "${Authentication.translateAuthState(state)} - $message - $currentAccount")
+        L.d(AUTH, "${Authentication.translateAuthState(state)} - $message")
 
         if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
             AccountPersister.persist(activity, currentAccount)

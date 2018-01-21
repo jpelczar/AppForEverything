@@ -25,7 +25,7 @@ object SharedPreferencesUtil {
 
     fun load(context: Context, sharedPrefName: String, key: String): Any? = getPreferences(context, sharedPrefName).all[key]
 
-    fun loadString(context: Context, sharedPrefName: String, key: String): String = load(context, sharedPrefName, key) as String
+    fun loadString(context: Context, sharedPrefName: String, key: String): String? = load(context, sharedPrefName, key) as String?
 
     fun loadLong(context: Context, sharedPrefName: String, key: String): Long? = load(context, sharedPrefName, key) as Long?
 

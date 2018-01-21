@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.support.annotation.IntDef
 import android.support.v7.app.AppCompatActivity
-import android.text.format.DateUtils.DAY_IN_MILLIS
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
-import io.jpelczar.appforeverything.commons.SharedPreferencesUtil
+import io.jpelczar.appforeverything.commons.L
+import io.jpelczar.appforeverything.commons.LogPrefix
 import io.jpelczar.appforeverything.data.Account
 
 abstract class Authentication(val context: Context) {
@@ -32,7 +32,7 @@ abstract class Authentication(val context: Context) {
     protected fun signIn(credential: AuthCredential, callback: Callback) {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                SharedPreferencesUtil.persist(context, USER_SHARED_PREF_NAME, USER_EXPIRED_SHARED_PREF_KEY, System.currentTimeMillis())
+                AccountPersister.refreshValidationPeriod(context)
                 callback.onResult(SIGN_IN_SUCCESS, null, Account().setFromFirebase(task.result.user))
             } else
                 callback.onResult(SIGN_IN_FAIL, task.exception?.message)
@@ -54,10 +54,12 @@ abstract class Authentication(val context: Context) {
     private fun registerAuthListener(callback: Callback) {
         firebaseAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             val currentUser = firebaseAuth.currentUser
-            if (currentUser == null)
+            if (currentUser == null) {
+                AccountPersister.clean(context)
                 callback.onResult(SIGN_OUT_SUCCESS)
-            else
+            } else
                 callback.onResult(SIGN_OUT_FAIL)
+            L.d(LogPrefix.AUTH, "User sign out: ${!isAuthenticated()}")
         }
         firebaseAuth.addAuthStateListener(firebaseAuthListener)
     }
@@ -78,10 +80,6 @@ abstract class Authentication(val context: Context) {
         const val SIGN_UP_SUCCESS = 4L
         const val SIGN_UP_FAIL = 5L
         const val FAIL = 6L
-
-        const val USER_SHARED_PREF_NAME = "USER_SHARED_PREF_NAME"
-        private const val USER_EXPIRED_SHARED_PREF_KEY = "USER_EXPIRED_SHARED_PREF_KEY"
-        private const val EXPIRED_PERIOD = 7 * DAY_IN_MILLIS
 
         fun translateAuthState(value: Long): String {
             return when (value) {
@@ -106,9 +104,6 @@ abstract class Authentication(val context: Context) {
                 else -> null
             }
         }
-
-        fun isExpired(context: Context): Boolean = (SharedPreferencesUtil.loadLong(context, USER_SHARED_PREF_NAME,
-                USER_EXPIRED_SHARED_PREF_KEY) ?: 0) < (System.currentTimeMillis() - EXPIRED_PERIOD)
 
         fun getAuthenticatorForAccount(activity: AppCompatActivity, account: Account?): Authentication? {
             if (account == null)
