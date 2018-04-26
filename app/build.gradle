@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
@@ -32,8 +33,8 @@ kapt {
 }
 
 dependencies {
-    def SUPPORT_VERSION = "27.0.2"
-    def FIREBASE_VERSION = "11.8.0"
+    def SUPPORT_VERSION = "27.1.1"
+    def FIREBASE_VERSION = "15.0.0"
     def DAGGER_VERSION = "2.9"
     def JSR250_VERSION = "1.0"
     def GSON_VERSION = "2.8.0"

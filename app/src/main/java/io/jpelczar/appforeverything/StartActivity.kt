@@ -1,5 +1,6 @@
 package io.jpelczar.appforeverything
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -25,7 +26,8 @@ class StartActivity : BaseActivity() {
             if (AccountPersister.isAccountExpired(applicationContext)) {
                 L.d(AUTH, "Auth expired")
                 Authentication.getAuthenticatorForAccount(this, currentAccount)?.signOut(object : Authentication.Callback {
-                    override fun onResult(state: Long, message: String?, account: Account?) {
+                    @SuppressLint("SwitchIntDef")
+                    override fun onResult(state: Int, message: String?, account: Account?) {
                         when (state) {
                             Authentication.SIGN_OUT_SUCCESS -> startActivity(Intent(this@StartActivity, SignInActivity::class.java))
                             else -> {

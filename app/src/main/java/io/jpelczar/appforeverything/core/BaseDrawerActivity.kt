@@ -1,5 +1,6 @@
 package io.jpelczar.appforeverything.core
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -106,7 +107,8 @@ abstract class BaseDrawerActivity : BaseActivity(), NavigationView.OnNavigationI
         return when (item.itemId) {
             R.id.logout -> {
                 Authentication.getAuthenticatorForAccount(this, currentAccount)?.signOut(object : Authentication.Callback {
-                    override fun onResult(state: Long, message: String?, account: Account?) {
+                    @SuppressLint("SwitchIntDef")
+                    override fun onResult(state: Int, message: String?, account: Account?) {
                         when (state) {
                             Authentication.SIGN_OUT_SUCCESS -> {
                                 Toast.makeText(this@BaseDrawerActivity, R.string.user_sign_out, Toast.LENGTH_SHORT).show()

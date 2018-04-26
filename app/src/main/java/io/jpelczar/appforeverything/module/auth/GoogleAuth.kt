@@ -55,7 +55,7 @@ class GoogleAuth(val activity: AppCompatActivity) :
                     val signInAccount = signInTask.getResult(Exception::class.java)
                     signIn(GoogleAuthProvider.getCredential(signInAccount.idToken, null),
                             object : Callback {
-                                override fun onResult(state: Long, message: String?, account: Account?) {
+                                override fun onResult(state: Int, message: String?, account: Account?) {
                                     if (state == SIGN_IN_SUCCESS) {
                                         account?.photoUrl = signInAccount.photoUrl ?: Uri.parse(context.getString(R.string.placeholder_profile_image_uri))
                                     }

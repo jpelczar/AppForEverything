@@ -66,7 +66,7 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         authentication?.handleResult(requestCode, resultCode, data)
     }
 
-    override fun onResult(state: Long, message: String?, account: Account?) {
+    override fun onResult(state: Int, message: String?, account: Account?) {
         if (account != null) {
             currentAccount.fill(account)
         }

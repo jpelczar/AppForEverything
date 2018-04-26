@@ -71,19 +71,19 @@ abstract class Authentication(val context: Context) {
     }
 
     interface Callback {
-        fun onResult(@State state: Long, message: String? = null, account: Account? = null)
+        fun onResult(@State state: Int, message: String? = null, account: Account? = null)
     }
 
     companion object {
-        const val SIGN_IN_SUCCESS = 0L
-        const val SIGN_IN_FAIL = 1L
-        const val SIGN_OUT_SUCCESS = 2L
-        const val SIGN_OUT_FAIL = 3L
-        const val SIGN_UP_SUCCESS = 4L
-        const val SIGN_UP_FAIL = 5L
-        const val FAIL = 6L
+        const val SIGN_IN_SUCCESS = 0
+        const val SIGN_IN_FAIL = 1
+        const val SIGN_OUT_SUCCESS = 2
+        const val SIGN_OUT_FAIL = 3
+        const val SIGN_UP_SUCCESS = 4
+        const val SIGN_UP_FAIL = 5
+        const val FAIL = 6
 
-        fun translateAuthState(value: Long): String {
+        fun translateAuthState(value: Int): String {
             return when (value) {
                 SIGN_IN_SUCCESS -> "Sign in success"
                 SIGN_IN_FAIL -> "Sign in fail"
