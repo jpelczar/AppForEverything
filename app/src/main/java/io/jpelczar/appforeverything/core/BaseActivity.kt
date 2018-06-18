@@ -1,20 +1,17 @@
 package io.jpelczar.appforeverything.core
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import io.jpelczar.appforeverything.core.injection.activity.ActivityComponent
 import io.jpelczar.appforeverything.core.injection.activity.ActivityModule
 import io.jpelczar.appforeverything.core.injection.activity.DaggerActivityComponent
 import io.jpelczar.appforeverything.data.Account
+import io.jpelczar.core.injection.InjectableActivity
 import javax.inject.Inject
 
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : InjectableActivity() {
 
     @Inject
     lateinit var currentAccount: Account
-
-    lateinit var activityComponent: ActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -6,9 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import io.jpelczar.appforeverything.R
-import io.jpelczar.appforeverything.commons.L
-import io.jpelczar.appforeverything.commons.LogPrefix
+import io.jpelczar.core.commons.LogPrefix
 import io.jpelczar.appforeverything.core.BaseDrawerActivity
+import io.jpelczar.core.commons.L
 
 abstract class ModuleBaseActivity : BaseDrawerActivity() {
 

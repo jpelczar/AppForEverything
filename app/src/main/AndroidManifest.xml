@@ -25,14 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".signin.SignInActivity"></activity>
-        <activity android:name=".module.datacollection.DataCollectionActivity"></activity>
-
-        <service
-            android:name=".ApplicationService"
-            android:exported="false"></service>
-
-        <activity android:name=".module.ModuleBaseActivity"></activity>
+        <activity android:name=".signin.SignInActivity" />
+        <activity android:name=".signin.MainActivity" />
     </application>
 
 </manifest>

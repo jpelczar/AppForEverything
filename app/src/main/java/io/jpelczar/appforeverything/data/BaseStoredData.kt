@@ -1,5 +1,5 @@
 package io.jpelczar.appforeverything.data
 
-import io.jpelczar.appforeverything.core.event.EventData
+import io.jpelczar.core.event.EventData
 
 open class BaseStoredData : EventData

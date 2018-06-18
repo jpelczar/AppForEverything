@@ -15,15 +15,14 @@ import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import io.jpelczar.appforeverything.R
-import io.jpelczar.appforeverything.commons.L
-import io.jpelczar.appforeverything.commons.LogPrefix.AUTH
 import io.jpelczar.appforeverything.core.BaseFragment
 import io.jpelczar.appforeverything.data.Account
 import io.jpelczar.appforeverything.module.auth.Authentication
 import io.jpelczar.appforeverything.module.auth.FacebookAuth
 import io.jpelczar.appforeverything.module.auth.FirebaseAuth
 import io.jpelczar.appforeverything.module.auth.GoogleAuth
-import io.jpelczar.appforeverything.module.datacollection.DataCollectionActivity
+import io.jpelczar.core.commons.L
+import io.jpelczar.core.commons.LogPrefix.AUTH
 
 class SignInFragment : BaseFragment(), Authentication.Callback {
 
@@ -75,7 +74,7 @@ class SignInFragment : BaseFragment(), Authentication.Callback {
         L.d(AUTH, "${Authentication.translateAuthState(state)} - $message")
 
         if (state == Authentication.SIGN_IN_SUCCESS || state == Authentication.SIGN_UP_SUCCESS) {
-            startActivity(Intent(context, DataCollectionActivity::class.java))
+            startActivity(Intent(context, MainActivity::class.java))
             activity.finish()
         } else {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

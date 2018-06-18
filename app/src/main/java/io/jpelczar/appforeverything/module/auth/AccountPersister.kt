@@ -4,10 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
 import android.text.format.DateUtils
-import io.jpelczar.appforeverything.commons.SharedPreferencesUtil
-import io.jpelczar.appforeverything.commons.SharedPreferencesUtil.loadString
-import io.jpelczar.appforeverything.commons.SharedPreferencesUtil.loadStringSet
-import io.jpelczar.appforeverything.commons.SharedPreferencesUtil.persist
+import io.jpelczar.core.commons.SharedPreferencesUtil
+import io.jpelczar.core.commons.SharedPreferencesUtil.loadString
+import io.jpelczar.core.commons.SharedPreferencesUtil.loadStringSet
+import io.jpelczar.core.commons.SharedPreferencesUtil.persist
 import io.jpelczar.appforeverything.data.Account
 
 

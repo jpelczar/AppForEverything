@@ -6,9 +6,9 @@ import android.support.annotation.IntDef
 import android.support.v7.app.AppCompatActivity
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
-import io.jpelczar.appforeverything.commons.L
-import io.jpelczar.appforeverything.commons.LogPrefix
 import io.jpelczar.appforeverything.data.Account
+import io.jpelczar.core.commons.L
+import io.jpelczar.core.commons.LogPrefix
 
 abstract class Authentication(val context: Context) {
 

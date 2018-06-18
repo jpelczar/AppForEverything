@@ -4,14 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import io.jpelczar.appforeverything.commons.L
-import io.jpelczar.appforeverything.commons.LogPrefix.AUTH
 import io.jpelczar.appforeverything.core.BaseActivity
 import io.jpelczar.appforeverything.data.Account
 import io.jpelczar.appforeverything.module.auth.AccountPersister
 import io.jpelczar.appforeverything.module.auth.Authentication
-import io.jpelczar.appforeverything.module.datacollection.DataCollectionActivity
+import io.jpelczar.appforeverything.signin.MainActivity
 import io.jpelczar.appforeverything.signin.SignInActivity
+import io.jpelczar.core.commons.L
+import io.jpelczar.core.commons.LogPrefix.AUTH
 
 class StartActivity : BaseActivity() {
 
@@ -39,7 +39,7 @@ class StartActivity : BaseActivity() {
                 })
             } else {
                 AccountPersister.refreshValidationPeriod(applicationContext)
-                startActivity(Intent(this, DataCollectionActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             }
         } else {
             L.d(AUTH, "No active auth")

@@ -3,8 +3,9 @@ package io.jpelczar.appforeverything.signin
 import android.content.Intent
 import android.os.Bundle
 import io.jpelczar.appforeverything.R
-import io.jpelczar.appforeverything.commons.FragmentHelper
 import io.jpelczar.appforeverything.core.BaseActivity
+import io.jpelczar.core.commons.FragmentHelper
+import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : BaseActivity() {
 
@@ -16,6 +17,8 @@ class SignInActivity : BaseActivity() {
         activityComponent.inject(this)
 
         FragmentHelper.replaceFragment(this, signInFragment, R.id.main_frame)
+
+        open.setOnClickListener { FragmentHelper.replaceFragment(this, signInFragment, R.id.main_frame) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
